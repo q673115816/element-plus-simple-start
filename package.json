@@ -6,17 +6,21 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "analyz": "vite build --mode analyz"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@vueuse/core": "latest",
+    "@vueuse/integrations": "latest",
     "axios": "latest",
     "dayjs": "latest",
     "element-plus": "latest",
+    "lodash-es": "latest",
     "pinia": "latest",
+    "tailwindcss": "latest",
     "vue": "^3",
     "vue-router": "^4"
   },
@@ -28,6 +32,9 @@
     "prettier": "latest",
     "ts-node": "latest",
     "typescript": "latest",
-    "vite": "latest"
+    "unplugin-auto-import": "latest",
+    "unplugin-vue-components": "latest",
+    "vite": "latest",
+    "vite-bundle-analyzer": "latest"
   }
 }

@@ -1,10 +1,25 @@
 import { type UserConfigExport, type ConfigEnv, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { analyzer } from 'vite-bundle-analyzer'
 import { resolve } from 'node:path'
-export default ({ mode }: ConfigEnv): UserConfigExport => {
+
+
+export default ({ mode, }: ConfigEnv): UserConfigExport => {
+    const env = loadEnv(mode, process.cwd(), '')
+
     return {
         plugins: [
             vue(),
+            AutoImport({
+                resolvers: [ElementPlusResolver()],
+            }),
+            Components({
+                resolvers: [ElementPlusResolver()],
+            }),
+            mode === 'analyz' && analyzer(),
         ],
         resolve: {
             alias: {
@@ -14,11 +29,18 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         build: {
             rollupOptions: {
                 output: {
-                    chunkFileNames: "static/js/[name]-[hash].js",
-                    entryFileNames: "static/js/[name]-[hash].js",
-                    assetFileNames: "static/[ext]/[name]-[hash].[ext]"
+                    chunkFileNames: "js/[name]-[hash].js",
+                    entryFileNames: "js/[name]-[hash].js",
+                    assetFileNames: "[ext]/[name]-[hash].[ext]",
+                    manualChunks: {
+                        vue: ['vue', 'vue-router'],
+                        // 'vue-router': ['vue-router'],
+                        // dayjs: ['dayjs'],
+                        'lodash': ['lodash-es'],
+                        // "vueuse": ['@vueuse']
+                    }
                 }
-            }
+            },
         }
     }
 }
